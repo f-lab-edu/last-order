@@ -34,6 +34,7 @@ subprojects {
     dependencies {
         compileOnly 'org.projectlombok:lombok:1.18.16'
         annotationProcessor 'org.projectlombok:lombok:1.18.16'
+        implementation 'org.springframework.boot:spring-boot-starter-web:2.7.5'
         testImplementation 'org.springframework.boot:spring-boot-starter-test'
         testImplementation('org.springframework.boot:spring-boot-starter-test') {
             exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
@@ -48,7 +49,11 @@ subprojects {
 project(':last-order-api') {
     dependencies {
         implementation project(':last-order-core')
-        implementation 'org.springframework.boot:spring-boot-starter-web:2.7.5'
+    }
+}
+project(':last-order-batch') {
+    dependencies {
+        implementation project(':last-order-core')
     }
 }
 

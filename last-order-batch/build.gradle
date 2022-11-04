@@ -4,5 +4,3 @@ bootJar {
 jar {
     enabled = false
 }
-dependencies {
-}

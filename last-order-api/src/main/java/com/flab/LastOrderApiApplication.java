@@ -4,8 +4,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class LastOrderApplication {
+public class LastOrderApiApplication {
     public static void main(String[] args) {
-        SpringApplication.run(LastOrderApplication.class);
+        SpringApplication.run(LastOrderApiApplication.class);
     }
 }

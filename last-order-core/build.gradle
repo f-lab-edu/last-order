@@ -1,10 +1,8 @@
 bootJar {
-    enabled = false
+    enabled = false // core 은 bootJar 로 패키징 할 필요 없음
 }
-
 jar {
     enabled = true
 }
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-web:2.7.5'
 }
