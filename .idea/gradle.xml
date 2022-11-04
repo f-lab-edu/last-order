@@ -10,6 +10,8 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/last-order-api" />
+            <option value="$PROJECT_DIR$/last-order-core" />
           </set>
         </option>
       </GradleProjectSettings>

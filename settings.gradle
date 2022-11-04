@@ -1,4 +1,6 @@
 
 
 rootProject.name = 'last-order'
+include 'last-order-api'
+include 'last-order-core'
 
