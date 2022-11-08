@@ -2,17 +2,17 @@
 buildscript {
     ext {
         springBootVersion = '2.7.5'
+        gradleVersion = '1.0.11.RELEASE'
     }
     repositories {
         mavenCentral()
     }
     dependencies {
         classpath "org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}"
-        classpath "io.spring.gradle:dependency-management-plugin:1.0.11.RELEASE"
+        classpath "io.spring.gradle:dependency-management-plugin:${gradleVersion}"
     }
 }
 
-allprojects {}
 
 // 하위 모든 프로젝트 공통 세팅
 subprojects {
@@ -35,6 +35,9 @@ subprojects {
         compileOnly 'org.projectlombok:lombok:1.18.16'
         annotationProcessor 'org.projectlombok:lombok:1.18.16'
         implementation 'org.springframework.boot:spring-boot-starter-web:2.7.5'
+        implementation 'org.springframework.boot:spring-boot-starter-data-jpa:2.7.5'
+        runtimeOnly 'com.h2database:h2'
+        implementation 'org.springframework.boot:spring-boot-starter-validation'
         testImplementation 'org.springframework.boot:spring-boot-starter-test'
         testImplementation('org.springframework.boot:spring-boot-starter-test') {
             exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
