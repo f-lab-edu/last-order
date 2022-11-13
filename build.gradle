@@ -1,0 +1,66 @@
+
+buildscript {
+    ext {
+        springBootVersion = '2.7.5'
+        gradleVersion = '1.0.11.RELEASE'
+    }
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}"
+        classpath "io.spring.gradle:dependency-management-plugin:${gradleVersion}"
+    }
+}
+
+
+// 하위 모든 프로젝트 공통 세팅
+subprojects {
+    apply plugin: 'java'
+
+    apply plugin: 'org.springframework.boot'
+    // 종속성 관리 기능을 제공
+    apply plugin: 'io.spring.dependency-management'
+
+    group 'com.flab'
+    version '1.0'
+    sourceCompatibility = '11'
+
+    // dependency를 maven에서 가져온다
+    repositories {
+        mavenCentral()
+    }
+
+    // 하위 모듈에서 공통으로 사용하는 세팅 추가
+    dependencies {
+        compileOnly 'org.projectlombok:lombok:1.18.16'
+        annotationProcessor 'org.projectlombok:lombok:1.18.16'
+        // 의존성(jar)을 가져온다.
+        implementation 'org.springframework.boot:spring-boot-starter-web:2.7.5'
+        implementation 'org.springframework.boot:spring-boot-starter-data-jpa:2.7.5'
+        runtimeOnly 'com.h2database:h2'
+        implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+        // test시에만 의존성을 가져온다.
+        testImplementation 'org.springframework.boot:spring-boot-starter-test'
+        testImplementation('org.springframework.boot:spring-boot-starter-test') {
+            exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+        }
+    }
+    test {
+        // Junit 플랫폼
+        // Junit 5을 빌드하려면 4.6 버전 이상의 Gradle 필요
+        useJUnitPlatform()
+    }
+}
+project(':last-order-api') {
+    dependencies {
+        implementation project(':last-order-core')
+    }
+}
+project(':last-order-batch') {
+    dependencies {
+        implementation project(':last-order-core')
+    }
+}
+
