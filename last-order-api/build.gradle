@@ -1,3 +1,40 @@
-jar {
-    enabled = false
+// buildscript 와 apply plugin 부분을 plugins 변경 가능
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '2.7.5'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE' // 종속성 관리 기능을 제공
+}
+
+group 'com.flab' // Component scan to package
+version '1.0' // Application version default 0.0.1-SNAPSHOT
+sourceCompatibility = '11' // Java version
+
+// mavenCentral이라는 공개된 사이트에서 다운로드를 간편하게 받으라는 의미 (jcenter(), google())
+repositories {
+    mavenCentral()
+}
+
+// 의존성
+dependencies {
+    // plugins 사용하지 않으려면 gradle에는 compileOnly컴파일 중에만 lombok을 추가
+    compileOnly 'org.projectlombok:lombok:1.18.16'
+    // gradle 5 이상부터 어노테이션을 구별해서 추가 error: variable courseRepository not initialized in the default constructor
+    annotationProcessor 'org.projectlombok:lombok:1.18.16'
+
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    // spring boot 2.3 이후 부터는 spring-boot-starter-web에서 validation을 자동으로 추가해주지 않아 (@NotBlank @NotEmpty 사용시 필요)
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    runtimeOnly 'com.h2database:h2'
+
+    // test시에만 의존성을 가져온다.
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation('org.springframework.boot:spring-boot-starter-test') {
+        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+    }
+}
+test {
+    // Junit 플랫폼
+    // Junit 5을 빌드하려면 4.6 버전 이상의 Gradle 필요
+    useJUnitPlatform()
 }
