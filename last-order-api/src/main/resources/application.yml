@@ -13,3 +13,4 @@ spring:
   jpa:
     hibernate:
       ddl-auto: create # 애플리케이션 실행시 기존 Table Drop 후 Create 개발 단계에서만 사용
+

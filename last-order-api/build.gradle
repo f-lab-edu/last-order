@@ -1,12 +1,12 @@
-// buildscript 와 apply plugin 부분을 plugins 변경 가능
+// buildscript 와 apply plugin 부분을 plugins 변경
 plugins {
     id 'java'
     id 'org.springframework.boot' version '2.7.5'
-    id 'io.spring.dependency-management' version '1.0.11.RELEASE' // 종속성 관리 기능을 제공
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE' // 종속성 관리 기능을 제공 직접 버전을 명시하지 않아도 관리
 }
 
-group 'com.flab' // Component scan to package
-version '1.0' // Application version default 0.0.1-SNAPSHOT
+// 호환여부 11보다 낮은 Java 버전에서는 제대로 실행할 수 없다.
+// targetCompatibility는 실제로 돌아가는 java 버전 jdk에 맞춰서 컴파일된다.
 sourceCompatibility = '11' // Java version
 
 // mavenCentral이라는 공개된 사이트에서 다운로드를 간편하게 받으라는 의미 (jcenter(), google())
@@ -16,15 +16,23 @@ repositories {
 
 // 의존성
 dependencies {
-    // plugins 사용하지 않으려면 gradle에는 compileOnly컴파일 중에만 lombok을 추가
-    compileOnly 'org.projectlombok:lombok:1.18.16'
-    // gradle 5 이상부터 어노테이션을 구별해서 추가 error: variable courseRepository not initialized in the default constructor
-    annotationProcessor 'org.projectlombok:lombok:1.18.16'
-
+    // plugins 사용하지 않으려면 gradle에 compileOnly, 컴파일 중에만 lombok을 추가
+    // 컴파일 시에 getter, setter 등 필요한 것을 생성시키고, 런타임 때에는 사용하지 않기 때문에 compileOnly를 사용
+    compileOnly 'org.projectlombok:lombok'
+    // gradle 5 이상부터 어노테이션을 구별해서 추가
+    // 5이상 에서 추가하지 않으면 error: variable courseRepository not initialized in the default constructor
+    // 젠킨스와 같은 빌드 환경에서 그래들로 어노테이션 프로세서를 등록하기 위해
+    // 인텔리제이 어노테이션 프로세싱 활성화 기능을 통해 클래스패스에 있는 어노테이션 프로세서를 자동으로 등록
+    annotationProcessor 'org.projectlombok:lombok'
+    // implementation은 내부 의존성을 런타임에서만 보이는 구현 의존
+    // 의존관계가 A <- B <- C  라면 api시 전부 rebuild, implementation시 B만 rebuild (build 속도가 빨라진다.)
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     // spring boot 2.3 이후 부터는 spring-boot-starter-web에서 validation을 자동으로 추가해주지 않아 (@NotBlank @NotEmpty 사용시 필요)
     implementation 'org.springframework.boot:spring-boot-starter-validation'
+    // 런타임시점에만 의존하도록 변경 컴파일 단계에서는 h2디비를 알 필요가 없다.
+    // compileOnly의 경우에는 빌드 결과물의 사이즈가 줄어들 것이고,
+    // runtimeOnly의 경우에는 해당 클래스에서 코드 변경이 일어나도 컴파일을 다시 할 필요가 없게될 것이다.
     runtimeOnly 'com.h2database:h2'
 
     // test시에만 의존성을 가져온다.
