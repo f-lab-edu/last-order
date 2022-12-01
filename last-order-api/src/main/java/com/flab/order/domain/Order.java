@@ -6,6 +6,7 @@ import lombok.*;
 import javax.persistence.*;
 
 @Entity
+@Table(name = "tb_order")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
