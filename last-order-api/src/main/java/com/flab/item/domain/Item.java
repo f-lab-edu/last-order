@@ -22,7 +22,12 @@ public class Item {
 
     private Integer price;
 
-    @ManyToOne(cascade = CascadeType.ALL, targetEntity = User.class, fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", updatable = false)
-    private User user;
+    private String description;
+
+    private Long userId;
+
+    private Integer stack;
+
+    private Long storeId;
+
 }

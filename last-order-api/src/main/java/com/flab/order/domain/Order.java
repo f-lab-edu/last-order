@@ -19,8 +19,7 @@ public class Order{
 
     private String name;
 
-    @OneToOne(cascade = CascadeType.ALL, targetEntity = User.class, fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", updatable = false)
-    private User user;
+    private Long userId;
 
+    private Long itemId;
 }
