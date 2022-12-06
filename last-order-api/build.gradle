@@ -19,6 +19,7 @@ repositories {
 dependencies {
     // implementation은 내부 의존성을 런타임에서만 보이는 구현 의존
     // 의존관계가 A <- B <- C  라면 api시 전부 rebuild, implementation시 B만 rebuild (build 속도가 빨라진다.)
+    implementation 'org.mindrot:jbcrypt:0.4'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-web'
