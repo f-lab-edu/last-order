@@ -13,7 +13,7 @@ public class OrderController {
 
     @PostMapping("/add")
     public Order addOrder() {
-        User user = new User("슈카", 43);
+        User user = new User("test@test.com", "슈카", 43);
         Order order = Order.builder()
                 .name("첫 주문")
                 .user(user).build();
@@ -33,7 +33,7 @@ public class OrderController {
     @GetMapping("/list")
     public List<Order> getOrders() {
         List<Order> orders = new ArrayList<>();
-        User user = new User("슈카", 43);
+        User user = new User("test@test.com", "슈카", 43);
         Order order1 = Order.builder()
                 .name("주문1")
                 .user(user).build();

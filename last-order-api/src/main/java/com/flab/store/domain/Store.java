@@ -1,33 +1,30 @@
-package com.flab.item.domain;
+package com.flab.store.domain;
 
-import com.flab.user.domain.User;
 import lombok.*;
 
 import javax.persistence.*;
 
 @Entity
-@Table(name = "tb_item")
+@Table(name = "tb_store")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
 @AllArgsConstructor
-public class Item {
+public class Store {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "item_id")
+    @Column(name = "store_id")
     private Long id;
 
-    private String name;
-
-    private Integer price;
+    private String storeName;
 
     private String description;
 
-    private Long userId;
+    private Integer minimumOrderAmount;
 
-    private Integer stack;
+    private Integer reviewCount;
 
-    private Long storeId;
+    private Integer reviewScore;
 
 }

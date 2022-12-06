@@ -1,4 +1,4 @@
-package com.flab.item.domain;
+package com.flab.reply.domani;
 
 import com.flab.user.domain.User;
 import lombok.*;
@@ -6,28 +6,21 @@ import lombok.*;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "tb_item")
+@Table(name = "tb_reply")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
 @AllArgsConstructor
-public class Item {
+public class Reply {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "item_id")
+    @Column(name = "reply_id")
     private Long id;
 
-    private String name;
-
-    private Integer price;
-
-    private String description;
+    private String content;
 
     private Long userId;
 
-    private Integer stack;
-
-    private Long storeId;
-
+    private Long reviewId;
 }

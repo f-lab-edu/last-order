@@ -1,25 +1,24 @@
-package com.flab.order.domain;
+package com.flab.address.domain;
 
-import com.flab.user.domain.User;
 import lombok.*;
 
 import javax.persistence.*;
 
 @Entity
-@Table(name = "tb_order")
+@Table(name = "tb_address")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
 @Builder
-public class Order{
+@AllArgsConstructor
+public class Address {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "address_id")
     private Long id;
 
-    private String name;
+    private Long latitude;
 
-    private Long userId;
+    private Long longitude;
 
-    private Long itemId;
 }
