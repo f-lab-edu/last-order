@@ -2,31 +2,24 @@ package com.flab.user.domain;
 
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.Email;
 
 @Getter
+@Setter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@ToString
+@Table(name = "tb_user")
 public class User {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Email
     private String email;
 
+    private String password;
+
     private String name;
 
     private Integer age;
-
-    public User(String email, String name, int age) {
-        this.email = email;
-        this.name = name;
-        this.age = age;
-    }
 }
