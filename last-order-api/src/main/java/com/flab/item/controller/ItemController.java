@@ -1,52 +1,46 @@
 package com.flab.item.controller;
 
-import com.flab.item.domain.Item;
+import com.flab.item.domain.dto.request.ItemRequest;
+import com.flab.item.domain.dto.response.ItemResponse;
+import com.flab.item.service.ItemService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/item")
 public class ItemController {
 
+    private final ItemService itemService;
+
     @PostMapping("/add")
-    public Item addItem() {
-        Item item = Item.builder()
-                .id(1L)
-                .name("맥북")
-                .price(1880000)
-                .build();
-        return item;
+    public ResponseEntity<Long> addItem(@Valid ItemRequest itemRequest) {
+        return new ResponseEntity<>(itemService.addItem(itemRequest), HttpStatus.CREATED);
     }
 
     @PostMapping("/update")
-    public String updateItem() {
-        return "update";
+    public ResponseEntity<Long> updateItem(@Valid ItemRequest itemRequest) {
+        return new ResponseEntity<>(itemService.updateItem(itemRequest), HttpStatus.OK);
     }
 
-    @DeleteMapping("/delete")
-    public String deleteItem() {
-        return "delete";
+    @DeleteMapping("/{itemId}")
+    public ResponseEntity<Long> deleteItem(@PathVariable Long itemId) {
+        return new ResponseEntity<>(itemService.deleteItem(itemId), HttpStatus.OK);
     }
 
-    @GetMapping("/list")
-    public List<Item> getItems() {
-        List<Item> items = new ArrayList<>();
-        Item item1 = Item.builder()
-                .id(1L)
-                .name("맥북")
-                .price(1880000)
-                .build();
-        Item item2 = Item.builder()
-                .id(2L)
-                .name("아이폰14")
-                .price(1440000)
-                .build();
-        items.add(item1);
-        items.add(item2);
+    @GetMapping
+    public ResponseEntity<List<ItemResponse>> findItems() {
+        return new ResponseEntity<>(itemService.findItems(), HttpStatus.OK);
+    }
 
-        return items;
+    @GetMapping("/{itemId}")
+    public ResponseEntity<ItemResponse> findItem(@PathVariable Long itemId) {
+        return new ResponseEntity<>(itemService.findItem(itemId), HttpStatus.OK);
     }
 
 }
