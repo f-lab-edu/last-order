@@ -3,70 +3,55 @@ package com.flab.item.service.impl;
 import com.flab.item.domain.Item;
 import com.flab.item.domain.dto.request.ItemRequest;
 import com.flab.item.domain.dto.response.ItemResponse;
+import com.flab.item.repository.ItemRepository;
 import com.flab.item.service.ItemService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
+@RequiredArgsConstructor
 public class ItemServiceImpl implements ItemService {
+
+    private final ItemRepository itemRepository;
 
     @Override
     public Long addItem(ItemRequest itemRequest) {
         Item item = Item.builder()
-                .id(1L)
-                .name("맥북")
-                .price(1880000)
+                .name(itemRequest.getName())
+                .price(itemRequest.getPrice())
+                .stack(itemRequest.getStack())
+                .description(itemRequest.getDescription())
+                .storeId(1L) // store id 조회하여 값 주입
                 .build();
+
+        return itemRepository.save(item).getId();
+    }
+
+    @Override
+    public Long updateItem(Long itemId, ItemRequest itemRequest) {
+        Item item = itemRepository.findById(itemId).orElseThrow(() -> new RuntimeException());
+        item.update(itemRequest.getName(), itemRequest.getPrice(), itemRequest.getDescription(), itemRequest.getStack());
         return item.getId();
     }
 
     @Override
-    public Long updateItem(ItemRequest itemRequest) {
-        Item item = Item.builder()
-                .id(1L)
-                .name("맥북")
-                .price(1880000)
-                .build();
-        return item.getId();
+    public void deleteItem(Long itemId) {
+        itemRepository.deleteById(itemId);
     }
-
-    @Override
-    public Long deleteItem(Long itemId) {
-        return itemId;
-    }
-
+    
     @Override
     public List<ItemResponse> findItems() {
-        List<Item> items = new ArrayList<>();
-        Item item1 = Item.builder()
-                .id(1L)
-                .name("맥북")
-                .price(1880000)
-                .build();
-        Item item2 = Item.builder()
-                .id(2L)
-                .name("아이폰14")
-                .price(1440000)
-                .build();
-        items.add(item1);
-        items.add(item2);
-        return items.stream().map(ItemResponse::new).collect(Collectors.toList());
+        return itemRepository.findAll().stream().map(ItemResponse::new).collect(Collectors.toList());
     }
 
     @Override
     public ItemResponse findItem(Long itemId) {
-        Item item = Item.builder()
-                .id(1L)
-                .name("아메리카노")
-                .price(5800)
-                .description("아라비카 원두")
-                .stack(300)
-                .build();
-        ItemResponse itemResponse = new ItemResponse(item);
-        itemResponse.addStore("스타벅스");
-        return itemResponse;
+        Item item = itemRepository.findById(itemId).orElseThrow(() -> new RuntimeException());
+        return new ItemResponse(item);
     }
 }

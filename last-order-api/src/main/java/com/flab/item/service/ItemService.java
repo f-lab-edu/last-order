@@ -9,9 +9,9 @@ public interface ItemService {
 
     Long addItem(ItemRequest itemRequest);
 
-    Long updateItem(ItemRequest itemRequest);
+    Long updateItem(Long itemId, ItemRequest itemRequest);
 
-    Long deleteItem(Long itemId);
+    void deleteItem(Long itemId);
 
     List<ItemResponse> findItems();
 

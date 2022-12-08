@@ -19,18 +19,19 @@ public class ItemController {
     private final ItemService itemService;
 
     @PostMapping("/add")
-    public ResponseEntity<Long> addItem(@Valid ItemRequest itemRequest) {
+    public ResponseEntity<Long> addItem(@RequestBody @Valid ItemRequest itemRequest) {
         return new ResponseEntity<>(itemService.addItem(itemRequest), HttpStatus.CREATED);
     }
 
-    @PostMapping("/update")
-    public ResponseEntity<Long> updateItem(@Valid ItemRequest itemRequest) {
-        return new ResponseEntity<>(itemService.updateItem(itemRequest), HttpStatus.OK);
+    @PostMapping("/{itemId}")
+    public ResponseEntity<Long> updateItem(@PathVariable Long itemId, @RequestBody @Valid ItemRequest itemRequest) {
+        return new ResponseEntity<>(itemService.updateItem(itemId, itemRequest), HttpStatus.OK);
     }
 
     @DeleteMapping("/{itemId}")
-    public ResponseEntity<Long> deleteItem(@PathVariable Long itemId) {
-        return new ResponseEntity<>(itemService.deleteItem(itemId), HttpStatus.OK);
+    public ResponseEntity<Void> deleteItem(@PathVariable Long itemId) {
+        itemService.deleteItem(itemId);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping
