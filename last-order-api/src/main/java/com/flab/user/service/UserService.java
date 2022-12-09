@@ -17,8 +17,7 @@ import static com.flab.common.ErrorMessage.*;
 @RequiredArgsConstructor
 public class UserService {
     private final JpaAccountRepository userRepository;
-    public Boolean signUp(User user) {
-        //email이 중복이 되었는가?
+    public User signUp(User user) {
         if (userRepository.findByEmail(user.getEmail()) != null) {
             throw new EmailAlreadyExistException(EMAIL_ALREADY_EXIST);
         }
@@ -26,9 +25,9 @@ public class UserService {
         user.setPassword(encrypt);
         userRepository.save(user);
 
-        return true;
+        return user;
     }
-    public void login(LoginRequest login){
+    public LoginRequest login(LoginRequest login){
         User account;
         if((account = userRepository.findByEmail(login.getEmail())) == null){
             throw new EmailNotExistException(EMAIL_NOT_EXIST);
@@ -36,5 +35,6 @@ public class UserService {
         if(!BCrypt.checkpw(login.getPassword(),account.getPassword())){
             throw new PasswordNotMatchException(PASSWORD_NOT_MATCH);
         }
+        return login;
     }
 }

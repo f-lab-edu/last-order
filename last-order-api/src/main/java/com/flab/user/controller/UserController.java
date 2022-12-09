@@ -4,6 +4,8 @@ import com.flab.user.domain.User;
 import com.flab.user.dto.LoginRequest;
 import com.flab.user.service.UserService;
 import lombok.*;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -15,15 +17,13 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/login")
-    public LoginRequest login(@RequestBody LoginRequest login) {
-        userService.login(login);
-        return login;
+    public ResponseEntity<LoginRequest> login(@RequestBody LoginRequest login) {
+        return new ResponseEntity<>(userService.login(login), HttpStatus.OK);
     }
 
     @PostMapping("/signup")
-    public User signUp(@RequestBody User user) {
-        userService.signUp(user);
-        return user;
+    public ResponseEntity<User> signUp(@RequestBody User user) {
+        return new ResponseEntity<>(userService.signUp(user),HttpStatus.CREATED);
     }
     @GetMapping("/logout")
     public String logout() {
