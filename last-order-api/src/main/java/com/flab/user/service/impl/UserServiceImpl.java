@@ -21,8 +21,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User signUp(User user) {
-        if (userRepository.findByEmail(user.getEmail()) != null) {
-            throw new EmailAlreadyExistException(EMAIL_ALREADY_EXIST);
+        if (userRepository.existsByEmail(user.getEmail())) {
+            throw new EmailAlreadyExistException();
         }
         String encrypt = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt());
         user.setPassword(encrypt);
@@ -33,12 +33,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public LoginRequest login(LoginRequest login) {
-        User account;
-        if ((account = userRepository.findByEmail(login.getEmail())) == null) {
-            throw new EmailNotExistException(EMAIL_NOT_EXIST);
-        }
+        User account = userRepository.findByEmail(login.getEmail()).orElseThrow(() -> {
+            throw new EmailNotExistException();
+        });
         if (!BCrypt.checkpw(login.getPassword(), account.getPassword())) {
-            throw new PasswordNotMatchException(PASSWORD_NOT_MATCH);
+            throw new PasswordNotMatchException();
         }
         return login;
     }
