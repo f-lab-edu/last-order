@@ -2,7 +2,7 @@ package com.flab.user.controller;
 
 import com.flab.user.domain.User;
 import com.flab.user.dto.LoginRequest;
-import com.flab.user.service.UserService;
+import com.flab.user.service.impl.UserServiceImpl;
 import lombok.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/user")
 public class UserController {
 
-    private final UserService userService;
+    private final UserServiceImpl userService;
 
     @PostMapping("/login")
     public ResponseEntity<LoginRequest> login(@RequestBody LoginRequest login) {
