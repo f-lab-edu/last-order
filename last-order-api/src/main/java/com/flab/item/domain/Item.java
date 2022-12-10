@@ -30,4 +30,10 @@ public class Item {
 
     private Long storeId;
 
+    public void update(String name, int price, String description, int stack) {
+        this.name = name;
+        this.price = price;
+        this.description = description;
+        this.stack = stack;
+    }
 }
