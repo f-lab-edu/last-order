@@ -1,4 +1,4 @@
-package com.flab.user.dto;
+package com.flab.user.dto.request;
 
 import lombok.Getter;
 

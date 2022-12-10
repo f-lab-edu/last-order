@@ -1,7 +1,7 @@
 package com.flab.user.controller;
 
 import com.flab.user.domain.User;
-import com.flab.user.dto.LoginRequest;
+import com.flab.user.dto.request.LoginRequest;
 import com.flab.user.service.impl.UserServiceImpl;
 import lombok.*;
 import org.springframework.http.HttpStatus;
