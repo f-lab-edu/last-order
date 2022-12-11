@@ -3,39 +3,47 @@ package com.flab.user.service.impl;
 
 import com.flab.user.domain.User;
 import com.flab.user.dto.request.LoginRequest;
+import com.flab.user.dto.request.SignupRequest;
+import com.flab.user.dto.response.UserResponse;
+import com.flab.user.encoder.Encryptor;
 import com.flab.user.exception.EmailAlreadyExistException;
 import com.flab.user.exception.EmailNotExistException;
 import com.flab.user.exception.PasswordNotMatchException;
 import com.flab.user.repository.JpaAccountRepository;
 import com.flab.user.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
     private final JpaAccountRepository userRepository;
+    private final Encryptor encryptor;
 
     @Override
-    public User signUp(User user) {
-        if (userRepository.existsByEmail(user.getEmail())) {
+    public UserResponse signUp(SignupRequest request) {
+        if (userRepository.existsByEmail(request.getEmail())) {
             throw new EmailAlreadyExistException();
         }
-        String encrypt = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt());
-        user.setPassword(encrypt);
+        User user = User.builder()
+                .email(request.getEmail())
+                .password(encryptor.encoder(request.getPassword()))
+                .name(request.getName())
+                .age(request.getAge())
+                .build();
+
         userRepository.save(user);
-        return user;
+        return UserResponse.from(user);
     }
 
     @Override
-    public LoginRequest login(LoginRequest login) {
-        User account = userRepository.findByEmail(login.getEmail()).orElseThrow(() -> {
+    public UserResponse login(LoginRequest request) {
+        User user = userRepository.findByEmail(request.getEmail()).orElseThrow(() -> {
             throw new EmailNotExistException();
         });
-        if (!BCrypt.checkpw(login.getPassword(), account.getPassword())) {
+        if (!encryptor.checkPassword(request.getPassword(), user.getPassword())) {
             throw new PasswordNotMatchException();
         }
-        return login;
+        return UserResponse.from(user);
     }
 }
