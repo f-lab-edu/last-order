@@ -17,7 +17,7 @@ public interface StoreService {
 
     StoreResponse updateStore(UpdateStoreRequest request);
 
-    Boolean deleteStore();
+    Void deleteStore(Long storeId);
 
     String openStore();
 

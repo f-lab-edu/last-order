@@ -89,19 +89,9 @@ public class StoreServiceImpl implements StoreService {
     }
 
     @Override
-    public Boolean deleteStore() {
-        HashMap<Long, Store> storeMap = new HashMap<>();
-        Store store = Store.builder()
-                .id(1L)
-                .storeName("BBQ")
-                .minimumOrderAmount(15000)
-                .address("서울시 강남구 역삼동")
-                .description("치킨")
-                .ownerId(1L)
-                .build();
-        storeMap.put(1L, store);
-
-        return storeMap.remove(1L) != null;
+    public Void deleteStore(Long storeId) {
+        storeRepository.deleteById(storeId);
+        return null;
     }
 
     @Override

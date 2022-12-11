@@ -42,8 +42,8 @@ public class StoreController {
     }
 
     @DeleteMapping
-    public Boolean deleteStore() {
-        return storeService.deleteStore();
+    public ResponseEntity<Void> deleteStore(@RequestParam Long storeId) {
+        return new ResponseEntity<>(storeService.deleteStore(storeId),HttpStatus.OK);
     }
 
     @PostMapping("/open")
