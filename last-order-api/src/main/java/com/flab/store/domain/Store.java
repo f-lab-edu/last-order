@@ -1,6 +1,7 @@
 package com.flab.store.domain;
 
 import com.flab.store.domain.enums.StoreStatus;
+import com.flab.store.dto.request.UpdateStoreRequest;
 import lombok.*;
 
 import javax.persistence.*;
@@ -34,4 +35,11 @@ public class Store {
     private StoreStatus storeStatus;
 
     private Long ownerId;
+
+    public void updateStore(UpdateStoreRequest request) {
+        this.storeName = request.getStoreName();
+        this.address = request.getAddress();
+        this.description = request.getDescription();
+        this.minimumOrderAmount = request.getMinimumOrderAmount();
+    }
 }

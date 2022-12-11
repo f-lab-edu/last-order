@@ -4,6 +4,7 @@ import com.flab.store.StoreRepository;
 import com.flab.store.domain.Store;
 import com.flab.store.domain.enums.StoreStatus;
 import com.flab.store.dto.request.AddStoreRequest;
+import com.flab.store.dto.request.UpdateStoreRequest;
 import com.flab.store.dto.response.StoreResponse;
 import com.flab.store.service.StoreService;
 import lombok.RequiredArgsConstructor;
@@ -77,19 +78,14 @@ public class StoreServiceImpl implements StoreService {
     }
 
     @Override
-    public Store updateStore() {
-        HashMap<Long, Store> storeMap = new HashMap<>();
-        Store store = Store.builder()
-                .storeName("BBQ")
-                .minimumOrderAmount(15000)
-                .address("서울시 강남구 역삼동")
-                .description("치킨")
-                .build();
-        storeMap.put(1L, store);
+    public StoreResponse updateStore(UpdateStoreRequest request) {
+        var store = storeRepository.findById(request.getId()).orElseThrow(() -> {
+            throw new RuntimeException();
+        });
+        store.updateStore(request);
+        storeRepository.save(store);
 
-        storeMap.get(1L).setStoreName("Mcdonald");
-        storeMap.get(1L).setDescription("Hamburger");
-        return storeMap.get(1L);
+        return StoreResponse.from(store);
     }
 
     @Override
