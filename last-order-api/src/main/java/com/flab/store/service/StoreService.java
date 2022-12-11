@@ -1,6 +1,8 @@
 package com.flab.store.service;
 
 import com.flab.store.domain.Store;
+import com.flab.store.dto.request.AddStoreRequest;
+import com.flab.store.dto.response.StoreResponse;
 
 import java.util.List;
 
@@ -10,7 +12,7 @@ public interface StoreService {
 
     List<Store> searchAllMyStore();
 
-    List<Store> addStore();
+    StoreResponse addStore(AddStoreRequest request);
 
     Store updateStore();
 

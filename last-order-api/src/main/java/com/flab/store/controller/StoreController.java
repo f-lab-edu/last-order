@@ -1,11 +1,15 @@
 package com.flab.store.controller;
 
 import com.flab.store.domain.Store;
+import com.flab.store.dto.request.AddStoreRequest;
+import com.flab.store.dto.response.StoreResponse;
 import com.flab.store.service.StoreService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import java.util.ArrayList;
-import java.util.HashMap;
+
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -26,8 +30,8 @@ public class StoreController {
     }
 
     @PostMapping("/add")
-    public List<Store> addStore() {
-        return storeService.addStore();
+    public ResponseEntity<StoreResponse> addStore(@Valid @RequestBody AddStoreRequest request) {
+        return new ResponseEntity<>(storeService.addStore(request), HttpStatus.CREATED);
     }
 
     @PatchMapping("/update")
@@ -41,11 +45,11 @@ public class StoreController {
     }
 
     @PostMapping("/open")
-    public String openStore(){
+    public String openStore() {
         return storeService.openStore();
     }
     @PostMapping("/close")
-    public String closeStore(){
+    public String closeStore() {
         return storeService.closeStore();
     }
 }

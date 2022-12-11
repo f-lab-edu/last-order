@@ -1,6 +1,6 @@
 package com.flab.store.domain;
 
-import com.flab.store.dto.request.UpdateStoreRequest;
+import com.flab.store.domain.enums.StoreStatus;
 import lombok.*;
 
 import javax.persistence.*;
@@ -34,9 +34,4 @@ public class Store {
     private StoreStatus storeStatus;
 
     private Long ownerId;
-
-
-    public enum StoreStatus{
-        OPEN, CLOSE
-    }
 }

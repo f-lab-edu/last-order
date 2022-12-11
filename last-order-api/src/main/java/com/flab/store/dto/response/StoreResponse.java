@@ -3,8 +3,10 @@ package com.flab.store.dto.response;
 import com.flab.store.domain.Store;
 import com.flab.store.domain.enums.StoreStatus;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 
 @AllArgsConstructor
+@Getter
 public class StoreResponse {
     private Long id;
 
