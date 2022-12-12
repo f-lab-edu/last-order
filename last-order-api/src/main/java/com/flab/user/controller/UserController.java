@@ -20,8 +20,8 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/login")
-    public void login(@Valid @RequestBody LoginRequest login) {
-        userService.login(login);
+    public Long login(@Valid @RequestBody LoginRequest login) {
+        return userService.login(login);
     }
 
     @PostMapping("/signup")
