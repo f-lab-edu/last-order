@@ -1,35 +1,58 @@
 package com.flab.store.controller;
 
+import com.flab.store.domain.Store;
+import com.flab.store.dto.request.AddStoreRequest;
+import com.flab.store.dto.request.UpdateStoreRequest;
+import com.flab.store.dto.response.StoreResponse;
+import com.flab.store.service.StoreService;
+import lombok.RequiredArgsConstructor;
+import org.hibernate.sql.Update;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import java.util.List;
+
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/store")
 public class StoreController {
 
-    @GetMapping("/search")
-    public ResponseEntity<Void> searchStore() {
-        return new ResponseEntity<>(HttpStatus.OK);
+    private final StoreService storeService;
+
+    @GetMapping("/searchStoreInfo")
+    public Store searchStoreInfo() {
+        return storeService.searchStoreInfo();
     }
 
-    @GetMapping("/search-favorite")
-    public ResponseEntity<Void> searchStoreFavorite() {
-        return new ResponseEntity<>(HttpStatus.OK);
+    @GetMapping("/searchAllMyStore")
+    public List<Store> searchAllMyStore() {
+        return storeService.searchAllMyStore();
     }
 
     @PostMapping("/add")
-    public ResponseEntity<Void> addStore(){
-        return new ResponseEntity<>(HttpStatus.CREATED);
+    public ResponseEntity<StoreResponse> addStore(@Valid @RequestBody AddStoreRequest request) {
+        return new ResponseEntity<>(storeService.addStore(request), HttpStatus.CREATED);
     }
 
-    @PostMapping("update")
-    public ResponseEntity<Void> updateStore(){
-        return new ResponseEntity<>(HttpStatus.OK);
+    @PatchMapping("/update")
+    public ResponseEntity<StoreResponse> updateStore(@Valid @RequestBody UpdateStoreRequest request) {
+        return new ResponseEntity<>(storeService.updateStore(request), HttpStatus.CREATED);
     }
 
-    @DeleteMapping("/delete")
-    public ResponseEntity<Void> deleteStore(){
-        return new ResponseEntity<>(HttpStatus.OK);
+    @DeleteMapping
+    public ResponseEntity<Void> deleteStore(@RequestParam Long storeId) {
+        return new ResponseEntity<>(storeService.deleteStore(storeId),HttpStatus.OK);
+    }
+
+    @PostMapping("/open")
+    public String openStore() {
+        return storeService.openStore();
+    }
+
+    @PostMapping("/close")
+    public String closeStore() {
+        return storeService.closeStore();
     }
 }
