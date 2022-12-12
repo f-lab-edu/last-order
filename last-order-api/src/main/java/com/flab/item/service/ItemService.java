@@ -3,6 +3,7 @@ package com.flab.item.service;
 import com.flab.item.domain.Item;
 import com.flab.item.domain.dto.request.ItemRequest;
 import com.flab.item.domain.dto.response.ItemResponse;
+import com.flab.item.exception.ItemNotExistException;
 import com.flab.item.repository.ItemRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -30,7 +31,7 @@ public class ItemService {
     }
 
     public Long updateItem(Long itemId, ItemRequest itemRequest) {
-        Item item = itemRepository.findById(itemId).orElseThrow(() -> new RuntimeException());
+        Item item = itemRepository.findById(itemId).orElseThrow(() -> new ItemNotExistException());
         item.update(itemRequest.getName(), itemRequest.getPrice(), itemRequest.getDescription(), itemRequest.getStack());
         return item.getId();
     }
@@ -44,7 +45,7 @@ public class ItemService {
     }
 
     public ItemResponse findItem(Long itemId) {
-        Item item = itemRepository.findById(itemId).orElseThrow(() -> new RuntimeException());
+        Item item = itemRepository.findById(itemId).orElseThrow(() -> new ItemNotExistException());
         return new ItemResponse(item);
     }
 }
