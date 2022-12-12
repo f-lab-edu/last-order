@@ -16,10 +16,6 @@ public class ItemResponse {
 
     private String storeName;
 
-    public void addStore(String storeName) {
-        this.storeName = storeName;
-    }
-
     public ItemResponse(Item item) {
         this.name = item.getName();
         this.description = item.getDescription();
