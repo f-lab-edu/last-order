@@ -1,10 +1,9 @@
 package com.flab.user.controller;
 
-import com.flab.user.domain.User;
 import com.flab.user.dto.request.LoginRequest;
 import com.flab.user.dto.request.SignupRequest;
 import com.flab.user.dto.response.UserResponse;
-import com.flab.user.service.impl.UserServiceImpl;
+import com.flab.user.service.UserService;
 import lombok.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,17 +17,19 @@ import javax.validation.Valid;
 @RequestMapping("/user")
 public class UserController {
 
-    private final UserServiceImpl userService;
+    private final UserService userService;
 
     @PostMapping("/login")
-    public ResponseEntity<UserResponse> login(@Valid @RequestBody LoginRequest login) {
-        return new ResponseEntity<>(userService.login(login), HttpStatus.OK);
+    public Long login(@Valid @RequestBody LoginRequest login) {
+        return userService.login(login);
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<UserResponse> signUp(@Valid @RequestBody SignupRequest request) {
-        return new ResponseEntity<>(userService.signUp(request),HttpStatus.CREATED);
+    @ResponseStatus(HttpStatus.CREATED)
+    public void signUp(@Valid @RequestBody SignupRequest request) {
+        userService.signUp(request);
     }
+
     @GetMapping("/logout")
     public String logout() {
         return "logout";
