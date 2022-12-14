@@ -1,26 +1,81 @@
 package com.flab.store.service;
 
+import com.flab.store.StoreRepository;
 import com.flab.store.domain.Store;
 import com.flab.store.dto.request.AddStoreRequest;
 import com.flab.store.dto.request.UpdateStoreRequest;
 import com.flab.store.dto.response.StoreResponse;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public interface StoreService {
+import static com.flab.store.domain.enums.StoreStatus.*;
 
-    Store searchStoreInfo();
+@Service
+@RequiredArgsConstructor
+public class StoreService {
 
-    List<Store> searchAllMyStore();
+    private final StoreRepository storeRepository;
 
-    StoreResponse addStore(AddStoreRequest request);
+    public StoreResponse searchStoreInfo(Long storeId) {
+        var store = storeRepository.findById(storeId).orElseThrow(() -> {
+            throw new RuntimeException();
+        });
 
-    StoreResponse updateStore(UpdateStoreRequest request);
+        return StoreResponse.from(store);
+    }
 
-    Void deleteStore(Long storeId);
+    public List<StoreResponse> searchAllMyStore(Long ownerId) {
+        List<Store> storeList = storeRepository.findAllByOwnerId(ownerId);
+        List<StoreResponse> response = new ArrayList<>();
+        for (Store store : storeList) {
+            response.add(StoreResponse.from(store));
+        }
+        return response;
+    }
 
-    String openStore();
+    public Long addStore(AddStoreRequest request) {
+        Store store = Store.builder()
+                .storeName(request.getStoreName())
+                .minimumOrderAmount(request.getMinimumOrderAmount())
+                .address(request.getAddress())
+                .description(request.getDescription())
+                .ownerId(request.getOwnerId())
+                .storeStatus(CLOSE)
+                .reviewCount(0)
+                .reviewScore(0)
+                .build();
 
-    String closeStore();
+        return storeRepository.save(store).getId();
+    }
 
+    public Long updateStore(UpdateStoreRequest request) {
+        var store = storeRepository.findById(request.getId()).orElseThrow(() -> {
+            throw new RuntimeException();
+        });
+        store.updateStore(request);
+        return storeRepository.save(store).getId();
+    }
+
+    public void deleteStore(Long storeId) {
+        storeRepository.deleteById(storeId);
+    }
+
+    public void openStore(Long storeId) {
+        var store = storeRepository.findById(storeId).orElseThrow(()->{
+            throw new RuntimeException();
+        });
+        store.setStoreStatus(OPEN);
+        storeRepository.save(store);
+    }
+
+    public void closeStore(Long storeId) {
+        var store = storeRepository.findById(storeId).orElseThrow(()->{
+            throw new RuntimeException();
+        });
+        store.setStoreStatus(CLOSE);
+        storeRepository.save(store);
+    }
 }
