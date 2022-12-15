@@ -31,5 +31,6 @@ public class ItemRequest {
 
     private Long storeId;
 
+    @NotNull(message = "{NotNull.itemRequest.itemStatus}")
     private ItemStatus itemStatus;
 }
