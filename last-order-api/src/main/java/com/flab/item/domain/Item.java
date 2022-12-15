@@ -1,5 +1,7 @@
 package com.flab.item.domain;
 
+import com.flab.item.domain.dto.request.ItemRequest;
+import com.flab.item.domain.enums.ItemStatus;
 import com.flab.user.domain.User;
 import lombok.*;
 
@@ -30,10 +32,14 @@ public class Item {
 
     private Long storeId;
 
-    public void update(String name, int price, String description, int stack) {
-        this.name = name;
-        this.price = price;
-        this.description = description;
-        this.stack = stack;
+    @Enumerated(EnumType.STRING)
+    private ItemStatus itemStatus;
+
+    public void update(ItemRequest itemRequest) {
+        this.name = itemRequest.getName();
+        this.price = itemRequest.getPrice();
+        this.description = itemRequest.getDescription();
+        this.stack = itemRequest.getStack();
+        this.itemStatus = itemRequest.getItemStatus();
     }
 }
