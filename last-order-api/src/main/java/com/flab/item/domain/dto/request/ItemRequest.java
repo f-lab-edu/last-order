@@ -1,5 +1,6 @@
 package com.flab.item.domain.dto.request;
 
+import com.flab.item.domain.enums.ItemStatus;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -29,4 +30,7 @@ public class ItemRequest {
     private Integer stack;
 
     private Long storeId;
+
+    @NotNull(message = "{NotNull.itemRequest.itemStatus}")
+    private ItemStatus itemStatus;
 }

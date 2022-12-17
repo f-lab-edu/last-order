@@ -25,14 +25,13 @@ public class ItemService {
                 .price(itemRequest.getPrice())
                 .stack(itemRequest.getStack())
                 .description(itemRequest.getDescription())
-                .build();
-
+                .itemStatus(itemRequest.getItemStatus()).build();
         return itemRepository.save(item).getId();
     }
 
     public Long updateItem(Long itemId, ItemRequest itemRequest) {
         Item item = itemRepository.findById(itemId).orElseThrow(() -> new ItemNotExistException());
-        item.update(itemRequest.getName(), itemRequest.getPrice(), itemRequest.getDescription(), itemRequest.getStack());
+        item.update(itemRequest);
         return item.getId();
     }
 
