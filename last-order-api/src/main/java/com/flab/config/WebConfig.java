@@ -1,4 +1,4 @@
-package com.flab.common.config;
+package com.flab.config;
 
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
