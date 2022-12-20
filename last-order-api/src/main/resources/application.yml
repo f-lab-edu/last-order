@@ -1,7 +1,8 @@
 spring:
   messages:
-    basename: exception_message, validation_message
+    basename: validation_message
   profiles:
     include:
       - db
       - jpa
+      - aws
