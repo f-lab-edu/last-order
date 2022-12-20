@@ -1,5 +1,6 @@
 package com.flab.user.controller;
 
+import com.flab.user.domain.User;
 import com.flab.user.dto.request.LoginRequest;
 import com.flab.user.dto.request.SignupRequest;
 import com.flab.user.dto.response.UserResponse;
@@ -27,7 +28,14 @@ public class UserController {
     @PostMapping("/signup")
     @ResponseStatus(HttpStatus.CREATED)
     public void signUp(@Valid @RequestBody SignupRequest request) {
-        userService.signUp(request);
+        User user = User.builder()
+                .email(request.getEmail())
+                .password(request.getPassword())
+                .name(request.getName())
+                .age(request.getAge())
+                .build();
+
+        userService.signUp(user);
     }
 
     @GetMapping("/logout")

@@ -19,17 +19,11 @@ public class UserService {
     private final JpaAccountRepository userRepository;
     private final Encryptor encryptor;
 
-    public void signUp(SignupRequest request) {
-        if (userRepository.existsByEmail(request.getEmail())) {
+    public void signUp(User user) {
+        if (userRepository.existsByEmail(user.getEmail())) {
             throw new EmailAlreadyExistException();
         }
-        User user = User.builder()
-                .email(request.getEmail())
-                .password(encryptor.encoder(request.getPassword()))
-                .name(request.getName())
-                .age(request.getAge())
-                .build();
-
+        user.setPassword(encryptor.encoder(user.getPassword()));
         userRepository.save(user);
     }
 
