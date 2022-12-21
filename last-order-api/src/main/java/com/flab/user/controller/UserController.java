@@ -21,8 +21,8 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/login")
-    public Long login(@Valid @RequestBody LoginRequest login) {
-        return userService.login(login);
+    public void login(@Valid @RequestBody LoginRequest login) {
+        userService.login(login);
     }
 
     @PostMapping("/signup")
@@ -33,6 +33,7 @@ public class UserController {
                 .password(request.getPassword())
                 .name(request.getName())
                 .age(request.getAge())
+                .role(request.getRole())
                 .build();
 
         userService.signUp(user);
