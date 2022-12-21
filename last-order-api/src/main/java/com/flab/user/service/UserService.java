@@ -27,13 +27,13 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public Long login(LoginRequest request) {
+    public UserResponse login(LoginRequest request) {
         User user = userRepository.findByEmail(request.getEmail()).orElseThrow(() -> {
             throw new EmailNotExistException();
         });
         if (!encryptor.checkPassword(request.getPassword(), user.getPassword())) {
             throw new PasswordNotMatchException();
         }
-        return user.getId();
+        return UserResponse.from(user);
     }
 }
