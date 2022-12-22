@@ -1,5 +1,6 @@
 package com.flab.user.domain;
 
+import com.flab.user.domain.enums.Role;
 import lombok.*;
 
 import javax.persistence.*;
@@ -24,4 +25,6 @@ public class User {
     private String name;
 
     private Integer age;
+
+    private Role role;
 }
