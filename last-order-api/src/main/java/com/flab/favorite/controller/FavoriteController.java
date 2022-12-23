@@ -1,6 +1,9 @@
 package com.flab.favorite.controller;
 
 import com.flab.favorite.domain.Favorite;
+import com.flab.favorite.dto.SearchFavoriteResponse;
+import com.flab.favorite.service.FavoriteService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,21 +13,23 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/favorite")
+@RequiredArgsConstructor
 public class FavoriteController {
 
-    @GetMapping("/search")
-    public ResponseEntity<List<Favorite>> searchFavorite() {
-        List<Favorite> favorites = new ArrayList<>();
-        return new ResponseEntity<>(favorites, HttpStatus.OK);
+    private final FavoriteService favoriteService;
+
+    @GetMapping
+    public List<SearchFavoriteResponse> searchAllMyFavorite() {
+        return favoriteService.searchAllMyFavorite();
     }
 
-    @PostMapping("/add")
-    public ResponseEntity<Void> addFavorite(){
-        return new ResponseEntity<>(HttpStatus.CREATED);
+    @PostMapping("/add/{storeId}")
+    public void addFavorite(@PathVariable Long storeId){
+        favoriteService.addFavorite(storeId);
     }
 
-    @DeleteMapping("/delete")
-    public ResponseEntity<Void> deleteFavorite(){
-        return new ResponseEntity<>(HttpStatus.OK);
+    @DeleteMapping("/delete/{favoriteId}")
+    public void deleteFavorite(@PathVariable Long favoriteId){
+        favoriteService.deleteFavorite(favoriteId);
     }
 }
