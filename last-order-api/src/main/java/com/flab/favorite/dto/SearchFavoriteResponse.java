@@ -7,19 +7,16 @@ import lombok.Getter;
 @Getter
 public class SearchFavoriteResponse {
 
-    private Long storeId;
+    private final Long storeId;
 
-    private String storeName;
+    private final String storeName;
 
-    private double reviewScore;
+    private final double reviewScore;
 
-    private String description;
+    private final String description;
 
-    public SearchFavoriteResponse(Favorite favorite) {
+    public SearchFavoriteResponse(Favorite favorite, Store store) {
         this.storeId = favorite.getStoreId();
-    }
-
-    public void setFavoriteInfo(Store store) {
         this.storeName = store.getStoreName();
         this.reviewScore = store.getReviewScore();
         this.description = store.getDescription();

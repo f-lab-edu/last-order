@@ -23,12 +23,12 @@ public class FavoriteController {
         return favoriteService.searchAllMyFavorite();
     }
 
-    @PostMapping("/add/{storeId}")
-    public void addFavorite(@PathVariable Long storeId){
-        favoriteService.addFavorite(storeId);
+    @PostMapping("/{storeId}")
+    public Favorite addFavorite(@PathVariable Long storeId){
+        return favoriteService.addFavorite(storeId);
     }
 
-    @DeleteMapping("/delete/{favoriteId}")
+    @DeleteMapping("/{favoriteId}")
     public void deleteFavorite(@PathVariable Long favoriteId){
         favoriteService.deleteFavorite(favoriteId);
     }

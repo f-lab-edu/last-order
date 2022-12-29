@@ -11,8 +11,9 @@ import com.flab.store.exception.StoreNotExistException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -22,8 +23,8 @@ public class FavoriteService {
 
     private final StoreRepository storeRepository;
 
-    public Long addFavorite(Long storeId) {
-        checkStore(storeId);
+    public Favorite addFavorite(Long storeId) {
+        getStore(storeId).orElseThrow(() -> new StoreNotExistException());
         if(favoriteRepository.existsByUserIdAndStoreId(1L, storeId)){
             throw new AlreadyFavoriteException();
         }
@@ -32,24 +33,23 @@ public class FavoriteService {
                 .storeId(storeId)
                 .build();
 
-        return favoriteRepository.save(favorite).getId();
+        return favoriteRepository.save(favorite);
     }
 
     public void deleteFavorite(Long favoriteId) {
-        Favorite favorite = favoriteRepository.findById(favoriteId).orElseThrow(() -> new FavoriteNotExistException());
-        favoriteRepository.delete(favorite);
+        favoriteRepository.delete(favoriteRepository.findById(favoriteId).orElseThrow(() -> new FavoriteNotExistException()));
     }
 
     public List<SearchFavoriteResponse> searchAllMyFavorite(){
-        List<SearchFavoriteResponse> favoriteResponseList = favoriteRepository.findAllByUserId(1L).stream().map(SearchFavoriteResponse::new).collect(Collectors.toList());
-        for (SearchFavoriteResponse searchFavoriteResponse : favoriteResponseList) {
-            searchFavoriteResponse.setFavoriteInfo(checkStore(searchFavoriteResponse.getStoreId()));
+        List<Favorite> favoriteList = favoriteRepository.findAllByUserId(1L);
+        List<SearchFavoriteResponse> favoriteResponseList = new ArrayList<>();
+        for (Favorite favorite : favoriteList) {
+            favoriteResponseList.add(new SearchFavoriteResponse(favorite, getStore(favorite.getId()).orElseThrow(() -> new StoreNotExistException())));
         }
         return favoriteResponseList;
     }
 
-    private Store checkStore(Long storeId) {
-        return storeRepository.findById(storeId).orElseThrow(() -> new StoreNotExistException());
+    private Optional<Store> getStore(Long storeId) {
+        return storeRepository.findById(storeId);
     }
-
 }
