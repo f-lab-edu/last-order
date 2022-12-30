@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -41,12 +42,10 @@ public class FavoriteService {
     }
 
     public List<SearchFavoriteResponse> searchAllMyFavorite(){
-        List<Favorite> favoriteList = favoriteRepository.findAllByUserId(1L);
-        List<SearchFavoriteResponse> favoriteResponseList = new ArrayList<>();
-        for (Favorite favorite : favoriteList) {
-            favoriteResponseList.add(new SearchFavoriteResponse(favorite, getStore(favorite.getId()).orElseThrow(() -> new StoreNotExistException())));
-        }
-        return favoriteResponseList;
+        return favoriteRepository.findAllByUserId(1L).stream().map(favorite -> {
+            Store store = getStore(favorite.getStoreId()).orElseThrow(() -> new StoreNotExistException());
+            return new SearchFavoriteResponse(favorite, store);}).collect(Collectors.toList());
+
     }
 
     private Optional<Store> getStore(Long storeId) {
