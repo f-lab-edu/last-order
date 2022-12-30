@@ -2,7 +2,6 @@ package com.flab.item.domain;
 
 import com.flab.item.domain.dto.request.ItemRequest;
 import com.flab.item.domain.enums.ItemStatus;
-import com.flab.user.domain.User;
 import lombok.*;
 
 import javax.persistence.*;

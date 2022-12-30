@@ -1,8 +1,10 @@
 package com.flab.user.dto.request;
 
+import com.flab.user.domain.enums.Role;
 import lombok.Getter;
 import org.hibernate.validator.constraints.Range;
 
+import javax.persistence.Enumerated;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -23,4 +25,7 @@ public class SignupRequest {
     @NotNull(message = "{NotNull.signupRequest.age}")
     @Range(min = 0, max = 120, message = "{Range.signupRequest.age}")
     private Integer age;
+
+    @NotNull(message = "{NotNull.signupRequest.role}")
+    private Role role;
 }
