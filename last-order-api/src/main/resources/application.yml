@@ -6,3 +6,4 @@ spring:
       - db
       - jpa
       - aws
+      - security

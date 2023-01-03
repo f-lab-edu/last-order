@@ -1,5 +1,6 @@
 package com.flab.user.dto.request;
 
+import com.flab.config.jwt.Authority;
 import com.flab.user.domain.enums.Role;
 import lombok.Getter;
 import org.hibernate.validator.constraints.Range;
@@ -8,6 +9,8 @@ import javax.persistence.Enumerated;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.HashSet;
+import java.util.Set;
 
 @Getter
 public class SignupRequest {
@@ -27,5 +30,5 @@ public class SignupRequest {
     private Integer age;
 
     @NotNull(message = "{NotNull.signupRequest.role}")
-    private Role role;
+    private Set<Authority> authorities = new HashSet<>();
 }
