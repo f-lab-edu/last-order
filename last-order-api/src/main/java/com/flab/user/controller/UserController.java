@@ -27,8 +27,8 @@ public class UserController {
     public String login(@Valid @RequestBody LoginRequest login) {
         UserResponse user = userService.login(login);
 
-        String token = authorizationService.createToken(new createTokenDTO(user.getId(),user.getRole()));
-        return token;
+//        String token = authorizationService.createToken(new createTokenDTO(user.getId(),user.getRole()));
+        return "success";
     }
 
     @PostMapping("/signup")
@@ -39,7 +39,7 @@ public class UserController {
                 .password(request.getPassword())
                 .name(request.getName())
                 .age(request.getAge())
-                .role(request.getRole())
+                .authorities(request.getAuthorities())
                 .build();
 
         userService.signUp(user);

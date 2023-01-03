@@ -29,6 +29,12 @@ dependencies {
 
     runtimeOnly 'com.h2database:h2'
 
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.11.5'
+    implementation group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.11.5'
+    runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.11.5'
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+
     // test시에만 의존성을 가져온다.
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
